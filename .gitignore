@@ -1,0 +1,8 @@
+.DS_Store
+tex/.DS_Store
+tex/polarization.aux
+tex/polarization.fdb_latexmk
+tex/polarization.fls
+tex/polarization.log
+tex/polarization.out
+tex/polarization.synctex.gz
