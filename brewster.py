@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import scipy.optimize as op
 from scipy.stats import chi2
 from uncertainties import ufloat
-from uncertainties.umath import tan, cos, sin, asin
+from uncertainties.umath import tan, cos, sin, asin, sqrt
 
 def read_file(filename):
     """reads a .txt
@@ -116,13 +116,19 @@ if __name__ == "__main__":
     r_perp = (n_1 * cos(theta_1) - n_2 * cos(theta_2)) / (n_1 * cos(theta_1) + n_2 * cos(theta_2))
     print("r_perp = " + str(r_perp))
 
-    r_par_nom = (n_1 * cos(theta_2) - n_2 * cos(theta_1))
-    r_par_den = (n_1 * cos(theta_2) + n_2 * cos(theta_1))
-    r_par = r_par_nom/r_par_den
+    # r_par_nom = (n_1 * cos(theta_2) - n_2 * cos(theta_1))
+    # r_par_den = (n_1 * cos(theta_2) + n_2 * cos(theta_1))
+    # r_par = r_par_nom/r_par_den
     # print(r_par_nom)
     # print(r_par_den)
 
+    # print("r_par = " + str(r_par))
+
+    r_par = sqrt(1.0 - r_perp**2)
     print("r_par = " + str(r_par))
+    print((r_perp**2) + (r_par**2))
+
+    
     
 
     
