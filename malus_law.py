@@ -97,6 +97,9 @@ if __name__ == "__main__":
 
     # print(read_file("malus_law_JA-ERA-2polarizers.txt"))
     position2, intensity2 = read_file("malus_law_JA-ERA-2polarizers.txt")
+    position2 = position2[153:504]
+    intensity2 = intensity2[153:504]
+
     position3, intensity3 = read_file("malus_law_JA-ERA-3polarizers.txt")
 
     uncertainty2 = np.zeros(len(intensity2)) + 5e-3
@@ -122,7 +125,7 @@ if __name__ == "__main__":
     
     # fit data, including chi squared analysis
 
-    popt2, pcov2 = op.curve_fit(malus_law_2, position2, intensity2, p0=(3, -1.8, 0.01133))    # fitting 2 polaroids
+    popt2, pcov2 = op.curve_fit(malus_law_2, position2, intensity2, p0=(3.5, -1.6, 0.01133))    # fitting 2 polaroids
     
 
     fx_2 = malus_law_2(position2, popt2[0], popt2[1], popt2[2])
@@ -143,8 +146,6 @@ if __name__ == "__main__":
     # print(chi_2_3)
 
     if plotting:
-        # ax1.plot(position2, malus_law_2(position2, popt2[0], popt2[1], popt2[2]))
-        # ax2.plot(position3, malus_law_3(position3, popt3[0], popt3[1], popt3[2]))
         ax1.plot(position2, fx_2, zorder=2, label='Modelled Fit')
         ax2.plot(position3, fx_3, zorder=2, label = 'Modelled Fit')
 
