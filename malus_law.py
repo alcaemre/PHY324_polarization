@@ -25,7 +25,7 @@ def read_file(filename):
     return position, intensity
 
 
-def malus_law_2(phi, phase_shift, phase_multiplier):
+def malus_law_2(phi, I0, phase_shift, phase_multiplier):
     """calculates the intensity 
 
     Args:
@@ -36,7 +36,7 @@ def malus_law_2(phi, phase_shift, phase_multiplier):
     Returns:
         np.array: calculated intensity
     """
-    intensity = 3.488*np.square(np.cos(phi * phase_multiplier + phase_shift)) # + offset
+    intensity = I0*np.square(np.cos(phi * phase_multiplier + phase_shift)) # + offset
     return intensity
 
 def malus_law_3(theta, I1, phase_shift, offset):
@@ -54,17 +54,6 @@ def malus_law_3(theta, I1, phase_shift, offset):
     intensity = (I1/4) * np.square(np.sin(2*((np.pi/4) + theta) + phase_shift)) + offset
     return intensity
 
-def chi_2(f, popt, position, intensity, uncertainty, start=0, stop=-1):
-    slice = [start, stop]   #optimal range of which the best curve_fit covers
-
-    n = intensity[slice[0]:slice[1]]
-    n_fit = f(position, *popt) +10*np.sin(position/400) -5
-    n_fit = n_fit[slice[0]:slice[1]]
-    uncertainty = uncertainty[slice[0]:slice[1]]
-    chi_2 = np.sum((n - n_fit)**2/(uncertainty**2))
-    dof = len(n) - len(popt)
-    probability = 1 - chi2.cdf(chi_2, dof)
-    return probability
 
 def chi_squared(fx: np.array, y: np.array, uy: np.array, m) -> float:
     """
@@ -90,51 +79,80 @@ def calc_residual(fx, y):
 
 
 if __name__ == "__main__":
-    plotting = True
-    plot_res = False
+
+    # ANALYSIS FOR 2 POLARIZERS
+
+    plotting_2 = False
 
     #loading data
 
     # print(read_file("malus_law_JA-ERA-2polarizers.txt"))
     position2, intensity2 = read_file("malus_law_JA-ERA-2polarizers.txt")
-    # position2 = position2[170:490]
-    # intensity2 = intensity2[170:490]
+    position2 = position2[170:490]
+    intensity2 = intensity2[170:490]
 
-    position3, intensity3 = read_file("malus_law_JA-ERA-3polarizers.txt")
-
-    uncertainty2 = np.zeros(len(intensity2)) + 5e-3
-    uncertainty3 = np.zeros(len(intensity3)) + 2e-3
+    uncertainty2 = np.zeros(len(intensity2)) + 8e-2
+    
     # print(np.min(intensity3))
+    
+    # fit data, including chi squared analysis
 
-    # plot data
+    popt2, pcov2 = op.curve_fit(malus_law_2, position2, intensity2, p0=(3.5, -1.6, 0.6))    # fitting 2 polaroids
+    # print(popt2)
 
-    if plotting:
+    fx_2 = malus_law_2(position2, popt2[0], popt2[1], popt2[2])
+    # fx_2 = malus_law_2(position2, popt2[0], popt2[1])
+
+    chi_squared_2 = chi_squared(fx_2, intensity2, uncertainty2, 3)
+    # print(chi_squared_2)
+
+    # residual plot showing difference between fit and measurement
+    residual_2 = calc_residual(fx_2, intensity2)
+
+    if plotting_2:
         fig, (ax1,ax2) = plt.subplots(2,1)
 
         ax1.errorbar(position2, intensity2, yerr=uncertainty2, zorder=1, label='Recorded Intensity') # plotting 2 polaroids
         ax1.set_title("Position vs. Intensity with Two Polaroids")
         ax1.set_ylabel("Intensity (V)")
-        # ax1.set_xlabel("Position (radians)")
+        ax1.plot(position2, fx_2, zorder=2, label='Modelled Fit')
 
+        # Bullshit excursion
+        # cos_2_theta = np.square(np.cos(position2))
+        # print(cos_2_theta)
+        # # ax2.errorbar(np.arange(len(intensity2)), intensity2, yerr=uncertainty2)
+        # I_0 = 3.48
+        # # ax2.plot(np.arange(len(intensity2)), I_0*cos_2_theta)
 
-        ax2.errorbar(position3, intensity3, yerr=uncertainty3, zorder=1, label='Recorded Intensity') # plotting 3 polaroids
-        ax2.set_title("Position vs. Intensity with Three Polaroids")
+        bl_2 = np.zeros(len(position2))
+        ax2.plot(position2, bl_2, linestyle="--", color='black')
+        ax2.set_title("2 Polaroids")
+        # ax2.errorbar(position2, residual_2, yerr=uncertainty2, linestyle="none", fmt='.')
+        ax2.plot(position2, uncertainty2, color='grey', label='Uncertainty Bounds')
+        ax2.plot(position2, uncertainty2* (-1), color='grey')
+        ax2.plot(position2, residual_2, '.', linestyle='none', label="Fit Minus Measurement")
         ax2.set_ylabel("Intensity (V)")
         ax2.set_xlabel("Position (radians)")
         
+
+        ax1.legend()
+        ax2.legend()
+
+        
+        plt.show()
+
     
-    # fit data, including chi squared analysis
+    
+        
+        
 
-    popt2, pcov2 = op.curve_fit(malus_law_2, position2, intensity2, p0=(-1.6, 0.6))    # fitting 2 polaroids
-    print(popt2)
+    # ANALYSIS FOR 3 POLARIZERS
 
-    # fx_2 = malus_law_2(position2, popt2[0], popt2[1], popt2[2])
-    fx_2 = malus_law_2(position2, popt2[0], popt2[1])
+    position3, intensity3 = read_file("malus_law_JA-ERA-3polarizers.txt")
+    uncertainty3 = np.zeros(len(intensity3)) + 3e-3
+    
 
-    chi_squared_2 = chi_squared(fx_2, intensity2, uncertainty2, 3)
-    print(chi_squared_2)
-    # chi_2_2 = chi_2(malus_law_2, popt2, position2, intensity2, uncertainty2, 0, len(intensity2)+1)
-    # print(chi_2_2)
+    plotting_3 = True
 
     popt3, pcov3 = op.curve_fit(malus_law_3, position3, intensity3, p0=(3.5, np.pi/4, 0.01213))    # fitting 3 polaroids
     
@@ -143,41 +161,28 @@ if __name__ == "__main__":
 
     chi_squared_3 = chi_squared(fx_3, intensity3, uncertainty3, 3)
     print(chi_squared_3)
-    # chi_2_3 = chi_2(malus_law_3, popt3, position3, intensity3, uncertainty3, 0, len(intensity3)+1)
-    # print(chi_2_3)
 
-    if plotting:
-        ax1.plot(position2, fx_2, zorder=2, label='Modelled Fit')
-        ax2.plot(position3, fx_3, zorder=2, label = 'Modelled Fit')
-
-        ax1.legend()
-        ax2.legend()
-
-        
-        plt.show()
-
-    # residual plot showing difference between fit and measurement
-    residual_2 = calc_residual(fx_2, intensity2)
     residual_3 = calc_residual(fx_3, intensity3)
 
-    if plot_res:
+    if plotting_3:
         fig, (ax1,ax2) = plt.subplots(2,1)
-
-        bl_2 = np.zeros(len(position2))
-        ax1.plot(position2, bl_2, linestyle="--")
-        ax1.set_title("2 Polaroids")
-        ax1.errorbar(position2, residual_2, yerr=uncertainty2, linestyle="none", fmt='.')
+        ax1.errorbar(position3, intensity3, yerr=uncertainty3, zorder=1, label='Recorded Intensity') # plotting 3 polaroids
+        ax1.set_title("Position vs. Intensity with Three Polaroids")
+        ax1.set_ylabel("Intensity (V)")
         
+        ax1.plot(position3, fx_3, zorder=2, label = 'Modelled Fit')
+
         bl_3 = np.zeros(len(position3))
         ax2.plot(position3, bl_3, linestyle="--", color='black')
         ax2.plot(position3, uncertainty3, color='grey', label='Uncertainty Bounds')
         ax2.plot(position3, uncertainty3* (-1), color='grey')
-        ax2.set_title("3 Polaroids")
-        ax2.plot(position3, residual_3, '.', linestyle='none', label='Residual')
+        ax2.set_title("Residual Plot with 3 Polaroids")
+        ax2.plot(position3, residual_3, '.', linestyle='none', label='Fit Minus Measurement')
+        ax2.set_xlabel("Position (radians)")
+        ax1.set_ylabel("Intensity (V)")
 
-
+        ax1.legend()
+        ax2.legend()
 
 
         plt.show()
-
-    
