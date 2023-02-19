@@ -164,7 +164,7 @@ The purpose of this experiment was to find the thermal diffusivity coefficient $
         \label{MalusLaw}
         I(\theta) = E^2 \cos^2\theta = I_0 \cos^2\theta
     \end{equation}
-    This expression is Malus's Law. The first polaroid is called the \textit{polarizer} and the second is called the \textit{analyzer}.
+    This expression is Malus's Law. The first polaroid is called the \textit{polarizer} and the second is called the \textit{analyzer}. For this experiment, $\theta$ is known from our measurements, and $I_0$ will be extrapolated using an optimization algorithm.
 
     If a third polaroid is placed further along the $\hat{z}$ axis (after the polarizer and the analyzer) such that its transmission axis is orthoginal to that of the polarizer, some intensity does, interstingly, transmit through. The intensity that passes through this third polaroid can be found by applying Malus's law again. If the intensity of light passing through the polarizer is $I_1$, the the intensity through the analyzer is
     \[
@@ -178,8 +178,8 @@ The purpose of this experiment was to find the thermal diffusivity coefficient $
             & = \frac{I_1}{4} sin^2 (2 \phi) \label{MalusLaw3}
         \end{split}
     \end{equation}
-
-    test
+    Much like the expression for two polaroids, $\phi$ is known and $I_1$ must be extrapolated using an optimization program. 
+    
 
     \vspace{20pt}
 
@@ -195,13 +195,7 @@ The purpose of this experiment was to find the thermal diffusivity coefficient $
 
     % Afterwards, the data was extracted from the footage by scrubbing through the video, and writing down the temperature measurements of both the hot and ice water baths, as well as the temperature of the insulated thermometer in a table. The iPhone stopwatch was used as a time reference. Afterwards, uncertainties in measurements were also recorded, since their values were constant by means of thermometer and stopwatch random and systematic errors. This was repeated for all three trials, then the data was typset into a .csv file to be imported for data analysis.
 
-    This at home pendulum is comprised of a butter knife, craft twine, a couple of textbooks, a Masterlock$^\text{TM}$ combination lock, a metal puzzle game in the shape of an 8 (the lock and the puzzle act as weights), and two heavy textbooks (in this case Peter Giffith's \textit{Introduction to Electrodynamics} and Claude Cohen-Tannoudji's \textit{Quantum Mechanics Vol. 1}), and a table. The butter knife was placed on top of a table, with its blundt end hanging $5.0 \pm 0.2$ cm off the edge. The sharp end of the butter knife was weighed down with the texbooks. The craft string had one end tied to the blundt end of the butter knife with a slip knot, with the knot pushed against the edge of the table. The other end of the craft string was tied to the shackle of the one of or both of the combination locks using another slip knot (see Figure 1 for reference). The string was then wrapped around the knife, pushing it away from the table (as to remove friction against the table from disrupting the pendulum). This wrapping also gave an easy way to vary the length of the string.
     
-    The main way this experiment's trials were divided was based on the mass that it used. There were four trials which had both of the masses tied to the end of the string (further denoted as mass$ = m_1$), and four trials where only the master lock was tied to the end of the string (mass$= m_2$). Due to a lack of sufficiently sensitive equipment, the masses of these combination locks were not measured. The centre of mass of $m_1$ was taken to be $D = 4.0 \pm 1.0$ and the centre of mass for $m_2$ was taken to be $D = 4.8 \pm 1.0$ cm below the knot. This large uncertainty is a function of a lack of good measuring equipment to find the centre of mass. For each mass, there were two trials at with a longer string (denoted $L_1$) and a shorter string (deonoted $L_2$): for $m_1, \ L_1 = 38.7 \pm 0.4$ cm and $L_2 = 22.7 \pm 0.2$ cm, for $m_2, \ L_1 = 40.3 \pm 0.3$ cm and $L_2 = 24.3 \pm 0.3$ cm. Further, each mass, at each length, had a trial with both a large and small $\theta_0$. Again, due to a lack of good measurement equipment, these initial angles were not measured. The small angles explore the areas around which the small angle approximation breaks down, and the large angles were very large, hoviering around $\approx 1$ radians.
-
-    The form of these trials give rise to a nice and natural notation for them: $m_1 L_1 \theta_1$ represents the trial with the larger mass, the longer pendulum, and the larger $\theta_0$. Similarly, $m_2 L_2 \theta_2$ is the trial with the smaller mass, shorter pendulum, and smaller $\theta_0$. This is the notation of the trials that will be used in all further tables and figures.
-
-    Each of these trials were recorded on an Iphone$^{TM}$'s camera and were allowed to run until there was a significant decrease in energy (though never a total or near total stop of motion). These videos were exported into the open source \textit{Tracker} software, where the mass's position in $x$ and $y$ was tracked, and the data tabulated into .csv files for further analysis. 
 
     \vspace{10pt}
 
