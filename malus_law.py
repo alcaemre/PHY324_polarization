@@ -54,18 +54,7 @@ def malus_law_3(theta, I1, phase_shift, offset):
     intensity = (I1/4) * np.square(np.sin(2*((np.pi/4) + theta) + phase_shift)) + offset
     return intensity
 
-def chi_square(f, popt, position, intensity, uncertainty, start=0, stop=-1):
-    # omega = omega1
-    # slice1 = [11, 62]   #optimal range of which the best curve_fit covers
-    # n1 = trial1[1][slice1[0]:slice1[1]]
-    # n1_fit = fitting_function(trial1[0], *popt1) +10*np.sin(trial1[0]/400) -5
-    # n1_fit = n1_fit[slice1[0]:slice1[1]]
-    # trial1_error = trial1_error[slice1[0]:slice1[1]]
-    # chi2_1 = np.sum((n1 - n1_fit)**2/(trial1_error**2))
-    # dof_1 = len(n1) - len(popt1)
-    # prob1 = 1 - chi2.cdf(chi2_1, dof_1)
-
-    
+def chi_2(f, popt, position, intensity, uncertainty, start=0, stop=-1):
     slice = [start, stop]   #optimal range of which the best curve_fit covers
 
     n = intensity[slice[0]:slice[1]]
@@ -77,15 +66,41 @@ def chi_square(f, popt, position, intensity, uncertainty, start=0, stop=-1):
     probability = 1 - chi2.cdf(chi_2, dof)
     return probability
 
+def chi_squared(fx: np.array, y: np.array, uy: np.array, m) -> float:
+    """
+    calculates xr ** 2
+
+    :param fx: an array holding the outputs of the modelled function times x
+    :param y: the y values being modelled against
+    :param uy: the uncertainty in the y values
+    :param m: number of parameters in model
+    :return: chi squared value
+    """
+    n = len(fx)
+    yminfx = y - fx
+    denomentator = yminfx ** 2
+    numerator = uy ** 2
+    summed = np.sum(denomentator / numerator)
+    return (1/(n - m)) * summed
+
+
+def calc_residual(fx, y):
+    return fx - y
+
+
 
 if __name__ == "__main__":
-    plotting = False
+    plotting = True
+    plot_res = False
 
     #loading data
 
     # print(read_file("malus_law_JA-ERA-2polarizers.txt"))
     position2, intensity2 = read_file("malus_law_JA-ERA-2polarizers.txt")
     position3, intensity3 = read_file("malus_law_JA-ERA-3polarizers.txt")
+
+    uncertainty2 = np.zeros(len(intensity2)) + 5e-3
+    uncertainty3 = np.zeros(len(intensity3)) + 3e-3
     # print(np.min(intensity3))
 
     # plot data
@@ -93,30 +108,75 @@ if __name__ == "__main__":
     if plotting:
         fig, (ax1,ax2) = plt.subplots(2,1)
 
-        ax1.plot(position2, intensity2) # plotting 2 polaroids
-        ax1.set_title("two polaroids")
+        ax1.errorbar(position2, intensity2, yerr=uncertainty2, zorder=1, label='Recorded Intensity') # plotting 2 polaroids
+        ax1.set_title("Position vs. Intensity with Two Polaroids")
+        ax1.set_ylabel("Intensity (V)")
+        # ax1.set_xlabel("Position (radians)")
 
-        ax2.plot(position3, intensity3) # plotting 3 polaroids
-        ax2.set_title("three polaroids")
+
+        ax2.errorbar(position3, intensity3, yerr=uncertainty3, zorder=1, label='Recorded Intensity') # plotting 3 polaroids
+        ax2.set_title("Position vs. Intensity with Three Polaroids")
+        ax2.set_ylabel("Intensity (V)")
+        ax2.set_xlabel("Position (radians)")
         
     
     # fit data, including chi squared analysis
 
-    popt2, pcov2 = op.curve_fit(malus_law_2, position2, intensity2, p0=(-3, 1, -0.01133))    # fitting 2 polaroids
-    uncertainty2 = np.zeros(len(intensity2)) + 5e-2
-    chi_squre_2 = chi_square(malus_law_2, popt2, position2, intensity2, uncertainty2, 0, len(intensity2)+1)
-    print(chi_squre_2)
+    popt2, pcov2 = op.curve_fit(malus_law_2, position2, intensity2, p0=(3, -1.8, 0.01133))    # fitting 2 polaroids
+    
+
+    fx_2 = malus_law_2(position2, popt2[0], popt2[1], popt2[2])
+
+    chi_squared_2 = chi_squared(fx_2, intensity2, uncertainty2, 3)
+    print(chi_squared_2)
+    # chi_2_2 = chi_2(malus_law_2, popt2, position2, intensity2, uncertainty2, 0, len(intensity2)+1)
+    # print(chi_2_2)
 
     popt3, pcov3 = op.curve_fit(malus_law_3, position3, intensity3, p0=(3.5, np.pi/4, 0.01213))    # fitting 3 polaroids
-    uncertainty3 = np.zeros(len(intensity3)) + 5e-2
-    chi_squre_3 = chi_square(malus_law_3, popt3, position3, intensity3, uncertainty3, 0, len(intensity3)+1)
-    print(chi_squre_2)
+    
+
+    fx_3 = malus_law_3(position3, popt3[0], popt3[1], popt3[2])
+
+    chi_squared_3 = chi_squared(fx_3, intensity3, uncertainty3, 3)
+    print(chi_squared_3)
+    # chi_2_3 = chi_2(malus_law_3, popt3, position3, intensity3, uncertainty3, 0, len(intensity3)+1)
+    # print(chi_2_3)
 
     if plotting:
-        ax1.plot(position2, malus_law_2(position2, popt2[0], popt2[1], popt2[2]))
-        ax2.plot(position3, malus_law_3(position3, popt3[0], popt3[1], popt3[2]))
+        # ax1.plot(position2, malus_law_2(position2, popt2[0], popt2[1], popt2[2]))
+        # ax2.plot(position3, malus_law_3(position3, popt3[0], popt3[1], popt3[2]))
+        ax1.plot(position2, fx_2, zorder=2, label='Modelled Fit')
+        ax2.plot(position3, fx_3, zorder=2, label = 'Modelled Fit')
 
+        ax1.legend()
+        ax2.legend()
+
+        
+        plt.show()
 
     # residual plot showing difference between fit and measurement
+    residual_2 = calc_residual(fx_2, intensity2)
+    residual_3 = calc_residual(fx_3, intensity3)
 
-    plt.show()
+    if plot_res:
+        fig, (ax1,ax2) = plt.subplots(2,1)
+
+        bl_2 = np.zeros(len(position2))
+        ax1.plot(position2, bl_2, linestyle="--")
+        ax1.set_title("2 Polaroids")
+        ax1.errorbar(position2, residual_2, yerr=uncertainty2, linestyle="none", fmt='.')
+        
+        bl_3 = np.zeros(len(position3))
+        ax2.plot(position3, bl_3, linestyle="--")
+        ax2.plot(position3, uncertainty3, color='grey')
+        ax2.plot(position3, uncertainty3* (-1), color='grey')
+        ax2.set_title("3 Polaroids")
+        # ax2.errorbar(position3, residual_3, yerr=uncertainty3, linestyle='none', fmt='.')
+        ax2.plot(position3, residual_3, '.', linestyle='none')
+
+
+
+
+        plt.show()
+
+    
