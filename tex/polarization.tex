@@ -94,11 +94,11 @@
 \begin{document}
 
 \begin{center}
-    \Large \fontfamily{qag}  \textbf{Analyzing the Period and Amplitude Decay of a Pendulum}\\
+    \Large \fontfamily{qag}  \textbf{Polarization of Light}\\
     \vspace{5pt} 
-    \large PHY324, February 13 2023\\
+    \large PHY324, February 19 2023\\
     \vspace{5pt}
-    Emre Alca - 1005756193
+    Emre Alca 1005756193, Jace Alloway 1006940802
 \end{center}
 
 \nd \hrulefill
@@ -111,9 +111,7 @@
 
 \fontfamily{qpl} \selectfont 
 
-% \lipsum[1]\\
-
-The purpose of this experiment was to find the thermal diffusivity coefficient $m$ of tortured rubber. This was done by placing a thermometer incased in tortured rubber in extreme hot and extreme cold at various intervals. The internal and external temperature of the thermometer was measured at regular intervals. The temperature-versus-time graph was modelled by a bessel function [3] and an $m$ value was extrapolated from this model. From our three trials, we found $m = 0.092 \pm 0.002$ mm$^2/$s for 60 second intervals starting at room temperature, $m = 0.14 \pm 0.01$ mm$^2/$s for 45 second intervals starting at room temperature, $m = 0.096 \pm 0.001$ mm$^2/$s for 60 second intervals starting at 97 \textdegree C. When compared to literature values of $m = 0.095 \pm 0.17$ mm$^2/$s [1] and $m = 0.089 \pm 0.013$ mm$^2/$s for rubber, the results for 60 second trials are very reasonable. The results for the 45 second trial is not. This is likely due to a lack of energy saturation in such a short trial.
+\lipsum[1]\\
 
 
 \nd \hrulefill
@@ -129,44 +127,52 @@ The purpose of this experiment was to find the thermal diffusivity coefficient $
     
     \fontfamily{qpl} \selectfont 
     
-    % There is no experiment as ubiquitous, or more illustrative than the pendulum. A mass at the end of string is swinging from side to side. What determines its amplitude? Its period? If the pendulum has a higher mass, that means it goes faster and must have a faster period right? Or a larger angle leads to a slower period? 
+    In introductory optics and electromagnetism, light polarization is the instrinsic property of electromagnetic waves which is given by the orientation of propogation. Generally, there are three types of light polarization: linear, circular, and elliptical. Most light is linearly polarized, and may be manually polarized by means of a polarizer, by reflection, scattering, or refraction through denser media. 
+    
+    Maxwell's equations predict the linear polarization of light as perpendicular electric and magnetic field components, which then are both perpendicular to the direction of the propogation. This allows various projections of these components on vertical and horizontal axes, hence polarizing the light. Any light passing through a polarizer is then polarized in the direction of the polarizer. 
 
-    % The purpose of this report is to test the model developed by the authors of \textit{PHY324 Pendulum Project - 2023} from the University of Toronto Department of Physics [1] (hereby referred to as 'the authors'). The model proposed by their authors has the period depend only on the length of the pendulum and not the mass or the initial angle. Their model also claims that the amplitude of a pendulum decays exponentially. To test this, I set up a very simple pendulum in my home and performed 8 trials. I used two different masses, two different pendulum-lengths, and two different initial angles, in all combinations. This report intends to use the results of these trials to verify whether the period of a pendulum does depend solely on the length of pendulum and not on the mass, initial angle, or time. This report further intends to verify that the amplitude decay follows an exponential curve.
-
-    NOTE: cover that polarizers allow only the componant of light that is polarized along a particular axis through it
+    Today, polarizers are used in sunglasses, laser physics, photography, and other ranges of electromagnetic waves (radio, x-rays, gamma rays, etc). 
+    
+    
     
     \vspace{10pt}
 
     \fontfamily{qag} \selectfont \textbf{Theory}
     
-    \fontfamily{qpl} \selectfont 
-
-    This report is focused on two interesting effects of the polarization of light as it passes through a polaroid.
-
-    In both cases, there is a light beam moving in the $\hat{z}$ direction. This beam hits a polaroid with the transmission axis $\hat{y}$. Since, on average, half of the light in this beam is polarized in the $\hat{x}$ direction and half in the $\hat{y}$ direction, half of the light passes through the polaroid.
-    Malus's law describes what happens when a second, or third polarizer is added, and how that changes intensity. 
-    Brewster's angle 
-    Each of these phenomena will be discussed individually.
-
-    \fontfamily{qag} \selectfont \textbf{Malus's Law}
-    
-    \fontfamily{qpl} \selectfont 
-
-    Malus's law, in its simplist form, is a statement about the intensity of light as it passes through two polaroids. Let the transmission axis of this second polarizer be $\hat{y}'$ and the angle made by $\hat{y}$ and $\hat{y}'$ be $\theta$. In this case, the componants of $E$ that pass through this second polarizer is
+    \fontfamily{qpl} \selectfont In the absence of electric charge and current distributions, Maxell's equations may be rearranged and re-substituted to obtain the wave equations for typical electric and magnetic field components:
     \[
-        \begin{split}
-            E_{x'} &= E \sin \theta \\
-            E_{y'} &= E \cos \theta
-        \end{split}
+        \square^2\, {\bf{E}}({\bf{r}}, t) = 0, \qquad \square^2\, {\bf{B}}({\bf{r}}, t) = 0, \tag{1}
     \]
-    but, of course, only the $\hat{y}'$ componant is transmitted (since $\hat{x}'$ is orthoginal to the transmission axis of the second polaroid). Therefore, if we set $I_0 = E^2$ (the intensity between the polaroids), the intensity of light transmitted by both of them is
-    \begin{equation}
-        \label{MalusLaw}
-        I(\theta) = E^2 \cos^2\theta = I_0 \cos^2\theta
-    \end{equation}
-    This expression is Malus's Law. The first polaroid is called the \textit{polarizer} and the second is called the \textit{analyzer}. For this experiment, $\theta$ is known from our measurements, and $I_0$ will be extrapolated using an optimization algorithm.
+    \nd where $\square^2 \equiv \nabla^2 - \frac{1}{c^2}\frac{\del^2}{\del t^2}$ is the D'Alembertian operator. Solving these equations by D'Alembert's method provides expressions for ${\bf{E}}$ and ${\bf{B}}$ as
+    \begin{align*}
+        {\bf{E}}({\bf{r}}, t) &= \text{Re}\,\left\{\boldsymbol{\mathcal{E}}_0\exp\left(i\frac{\omega}{c}({\bf{n}}\cdot {\bf{r}} - ct)\right)\right\} \tag{2.1}\\
+        {\bf{B}}({\bf{r}}, t) &= \text{Re}\,\left\{\boldsymbol{\mathcal{B}}_0\exp\left(i\frac{\omega}{c}({\bf{n}}\cdot {\bf{r}} - ct)\right)\right\}, \tag{2.2}
+    \end{align*}
+    \nd where $\boldsymbol{\mathcal{E}}_0$ and $\boldsymbol{\mathcal{B}}_0$ are the electric and magnetic wave directions, respectively, $\omega$ is the angular frequency of the wave, and ${\bf{n}}$ the direction of propogation.
+    
+    Then, (2.1) and (2.2) are related by Faraday's Law, 
+    \[\nabla\times{\bf{E}} + \frac{\del {\bf{B}}}{\del t} = 0, \tag{3}\]
+    \nd which yields the electro-magnetic wave relation
+    \[
+        \text{Re}\,\left\{\left(i\frac{\omega}{c}{\bf{n}}\times{\boldsymbol{\mathcal{E}}_0} - i\omega{\boldsymbol{\mathcal{B}}_0}\exp\left(i\frac{\omega}{c}({\bf{n}}\cdot {\bf{r}} - ct)\right)\right)\right\} = 0,   \tag{4}
+    \]
+    \nd which is true for all space and time components. Therefore $\boldsymbol{\mathcal{B}}_0 = \frac{1}{c}{\bf{n}}\times \boldsymbol{\mathcal{E}}_0$, resulting in perpendicular electric and magnetic field components of a light wave. Polarization is the effect of projecting these vector components of (4) onto a plane, reducing the light intensity and specifying a polarized direction.
+    
+    This report focuses on two interesting effects of light polarization: Malus's law, and reflectance polarization in the form of Brewster's angle.
+    \nd Malus's law models the effects of polarizers aligned in series to each other, and how the intensity of the light changes. 
+    
+    
+    In its simplist form, Malus's law states that the intensity of light as it passes through two polarizers is proportional to $\cos^2\theta$, where $\theta$ is the angle between the two polarizers. Suppose the polarizer is oriented in the $\hat{y}$ direction, and let the transmission axis of this second polarizer be $\hat{y}'$. In this case, the components of the wave which pass through this second polarizer is
+    \begin{align*}
+        E_{x'} &= E \sin \theta & E_{y'} &= E \cos \theta \tag{5}\\ 
+    \end{align*}
+    with the $\hat{y}'$ component being transmitted only (since $\hat{x}'$ is orthogonal to the transmission axis of the second polarizer). By definition, since intensity is proportional to the square of the electric field component, $I_0 = E^2$ (the intensity between the polarizers), thus the intensity of light transmitted by both of them is
+    \begin{equation*}
+        I(\theta) = E^2 \cos^2\theta = I_0 \cos^2\theta  \tag{6}
+    \end{equation*}
+    This expression is called Malus's Law. For this experiment, $\theta$ is known from our measurements, and $I(\theta)$ will be extrapolated using an optimization algorithm.
 
-    If a third polaroid is placed further along the $\hat{z}$ axis (after the polarizer and the analyzer) such that its transmission axis is orthoginal to that of the polarizer, some intensity does, interstingly, transmit through. The intensity that passes through this third polaroid can be found by applying Malus's law again. If the intensity of light passing through the polarizer is $I_1$, the the intensity through the analyzer is
+    If a third polarizer is placed further along the $\hat{z}$ axis (after the polarizer and the analyzer) such that its transmission axis is orthoginal to that of the polarizer, some intensity does, interstingly, transmit through. The intensity that passes through this third polaroid can be found by applying Malus's law again. If the intensity of light passing through the polarizer is $I_1$, the the intensity through the analyzer is
     \[
         I_2 = I_1 \cos^2 \phi
     \]
@@ -181,9 +187,10 @@ The purpose of this experiment was to find the thermal diffusivity coefficient $
     Much like the expression for two polaroids, $\phi$ is known and $I_1$ must be extrapolated using an optimization program. 
     
 
+
     \vspace{20pt}
 
-    \fontfamily{qag} \selectfont \textbf{Materials and Methods}
+    \fontfamily{qag} \selectfont \textbf{Methodology}
     
     \fontfamily{qpl} \selectfont 
 
