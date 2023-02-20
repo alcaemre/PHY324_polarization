@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.optimize as op
 from scipy.stats import chi2
+from uncertainties import ufloat
+from uncertainties.umath import tan, cos, sin, asin, sqrt
 
 def read_file(filename):
     """reads a .txt
@@ -56,8 +58,7 @@ def calc_residual(fx, y):
 
 
 if __name__ == "__main__":
-    plotting = True
-    plot_res = False
+    plotting = False
 
     # Loading data
 
@@ -65,12 +66,10 @@ if __name__ == "__main__":
     nop_uncertainty = np.zeros(len(nop_position)) + 5e-3
 
     h_position, h_intensity = read_file("brewster_JA-ERA-horizontal.txt")       # h is horizontally polarized
-    h_uncertainty = np.zeros(len(h_intensity)) + 3e-3
+    h_uncertainty = np.zeros(len(h_intensity)) + 5e-5
 
     v_position, v_intensity = read_file("brewster_JA-ERA-vertical.txt")        # v is vertically polarized
-    v_uncertainty = np.zeros(len(v_intensity)) + 3e-3
-
-    # Plotting Data
+    v_uncertainty = np.zeros(len(v_intensity)) + 5e-5
 
      # plot data
 
@@ -96,6 +95,41 @@ if __name__ == "__main__":
         ax3.set_xlabel("Position (radians)")
 
         plt.show()
+
+    # reading off theta_p
+    theta_p = ufloat(92.3, 0.3)
+    theta_p = theta_p/2
+
+    #calculating n_2
+    n_1 = ufloat(1, 0)
+    n_2 = n_1 * tan(theta_p)
+    print("n_2 = " + str(n_2))
+
+    # calculating theta_2
+    sin_theta2 = (n_1/n_2) * sin(theta_p)
+    theta_2 = asin(sin_theta2)
+    # print("theta_2 = " + str(theta_2))
+
+    theta_1 = theta_p
+
+    # calculating r_perp and 4_par
+    r_perp = (n_1 * cos(theta_1) - n_2 * cos(theta_2)) / (n_1 * cos(theta_1) + n_2 * cos(theta_2))
+    print("r_perp = " + str(r_perp))
+
+    # r_par_nom = (n_1 * cos(theta_2) - n_2 * cos(theta_1))
+    # r_par_den = (n_1 * cos(theta_2) + n_2 * cos(theta_1))
+    # r_par = r_par_nom/r_par_den
+    # print(r_par_nom)
+    # print(r_par_den)
+
+    # print("r_par = " + str(r_par))
+
+    r_par = sqrt(1.0 - r_perp**2)
+    print("r_par = " + str(r_par))
+    print((r_perp**2) + (r_par**2))
+
+    
+    
 
     
     
