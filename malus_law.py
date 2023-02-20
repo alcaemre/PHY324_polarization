@@ -115,6 +115,13 @@ if __name__ == "__main__":
     # residual plot showing difference between fit and measurement
     residual_2 = calc_residual(fx_2, intensity2)
 
+    cos_2_theta = np.square(np.cos(position2))
+    plt.errorbar(cos_2_theta, intensity2, xerr=ux_2, yerr=uncertainty2)
+    plt.title("Intensity vs. Cos^2 (theta)")
+    plt.ylabel("Intensity (V)")
+    plt.xlabel("cosine-squared of theta (unitless)")
+    plt.show()
+
     if plotting_2:
         fig, (ax1,ax2,) = plt.subplots(2,1)
 
