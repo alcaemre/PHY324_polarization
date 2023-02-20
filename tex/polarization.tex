@@ -12,7 +12,7 @@
 \usepackage{xcolor}
 \usepackage{alltt}
 \usepackage{textcomp}
-\usepackage[margin=0.7in, top=0.8in, bottom=1in, footskip=0.5in]{geometry}
+\usepackage[margin=0.6in, top=0.8in, bottom=1in, footskip=0.5in]{geometry}
 \usepackage{esvect}
 \usepackage{titlesec}
 \usepackage{braket}
@@ -111,7 +111,7 @@
 
 \fontfamily{qpl} \selectfont 
 
-\lipsum[1]\\
+    This work investigates the properties of linearly polarized light. The goal of this experiment was to verify Malus's law for a series of two and three polarizers, and this was done using a laser diode, a detector, and rotatable acquisition polarizers exporting data to LabView. Overall, it was found that the output intensity for two polarizers was $I = 3.42\pm 0.01\,$W with a $\chi^2$ fit value of $\chi^2= 0.376$, and for three polarizers an output intensity of $I = 0.497\pm0.001\,$W with a $\chi^2 = 0.426$. The second component of this experiment was to determine the index of refraction of an acryllic D-lens, which was done by determining Brewster's angle from observing reflected and transmitted polarized light. It was found that the observed index of refraction was $n_{\text{acryllic}} = 1.5\pm 0.5$, which was compared to a value found in literature, of $n = 1.49$. The reflection and transmission coefficients were determined by the Fresnel equations, which were observed to be $R = r_{\perp}^2 = 0.140\pm 0.56$ and $T = r_{\parallel}^2 = 0.865\pm0.221$. In conclusion, the values which were observed were reasonable and acceptable, which verifies Malus's law and the index of refraction of acryllic.  
 
 
 \nd \hrulefill
@@ -133,6 +133,9 @@
 
     Today, polarizers are used in sunglasses, laser physics, photography, and other ranges of electromagnetic waves (radio, x-rays, gamma rays, etc). 
     
+    The goal of the following experiments was to verify Malus's law for linearly polarized light, and to determine the index of refraction for an acryllic D-lens by measuring Brewster's angle. 
+
+    The necessary preparation for this experiment was reading on the physics of linearly polarized light, Maxwell's equations, Snell's law, and Brewester's angle. 
     
     
     \vspace{10pt}
@@ -164,43 +167,84 @@
     
     In its simplist form, Malus's law states that the intensity of light as it passes through two polarizers is proportional to $\cos^2\theta$, where $\theta$ is the angle between the two polarizers. Suppose the polarizer is oriented in the $\hat{y}$ direction, and let the transmission axis of this second polarizer be $\hat{y}'$. In this case, the components of the wave which pass through this second polarizer is
     \begin{align*}
-        E_{x'} &= E \sin \theta & E_{y'} &= E \cos \theta \tag{5}\\ 
+        E_{x'} &= E \sin \theta & E_{y'} &= E \cos \theta \tag{5}
     \end{align*}
-    with the $\hat{y}'$ component being transmitted only (since $\hat{x}'$ is orthogonal to the transmission axis of the second polarizer). By definition, since intensity is proportional to the square of the electric field component, $I_0 = E^2$ (the intensity between the polarizers), thus the intensity of light transmitted by both of them is
+    with the $\hat{y}'$ component being transmitted only (since $\hat{x}'$ is orthogonal to the transmission axis of the second polarizer). By definition, since intensity is proportional to the square of the electric field component, $I_0 \propto E^2$ (the intensity between the polarizers), thus the intensity of light transmitted by both of them is
     \begin{equation*}
         I(\theta) = E^2 \cos^2\theta = I_0 \cos^2\theta  \tag{6}
     \end{equation*}
     This expression is called Malus's Law. For this experiment, $\theta$ is known from our measurements, and $I(\theta)$ will be extrapolated using an optimization algorithm.
 
-    If a third polarizer is placed further along the $\hat{z}$ axis (after the polarizer and the analyzer) such that its transmission axis is orthoginal to that of the polarizer, some intensity does, interstingly, transmit through. The intensity that passes through this third polaroid can be found by applying Malus's law again. If the intensity of light passing through the polarizer is $I_1$, the the intensity through the analyzer is
-    \[
-        I_2 = I_1 \cos^2 \phi
-    \]
-    where $\phi$ is the angle between the transmission axes of the polarizer and analyzer. Applying Malus's law for the second time yields
-    \begin{equation}
-        \begin{split}
-            I_3 &= I_2 \cos^2 (\frac{\pi}{2} - \phi) \\
-            &= I_1 \cos^2 (\phi) \cos^2 (\frac{\pi}{2} - \phi) \\
-            & = \frac{I_1}{4} sin^2 (2 \phi)
-        \end{split} \tag(7)
-    \end{equation}
-    Much like the expression for two polaroids, $\phi$ is known and $I_1$ must be extrapolated using an optimization program. 
+    For two polarizers perpendicular to each other, then, it is expected and observed that the output intensity is indeed zero:
+    \begin{align*}
+        I(\pi/2) &= I_0 \cos^2(\pi/2) \tag{7}\\
+        &= 0.
+    \end{align*}
     
+    If a third polarizer is placed further along the $\hat{z}$ axis such that its transmission axis is orthogonal to that of the first polarizer, some intensity does, interestingly enough, transmit through. The intensity that passes through this third polarizer can be found by applying Malus's law a second time in series. If the intensity of light passing through the first polarizer is $I_1$, then the intensity through the analyzer is
+    \[
+        I_1 = I_0 \cos^2 \phi \tag{8}
+    \]
+    where $\phi$ is the angle between the transmission axes of the polarizer and analyzer. Then $\theta+\phi = \frac{\pi}{2}$. Applying Malus's law a second time,
+    \begin{align*}
+        I_2 &= I_1 \cos^2 \left(\frac{\pi}{2} - \phi\right) \tag{9.1}\\
+        &= I_0 \cos^2 (\phi) \cos^2 \left(\frac{\pi}{2} - \phi\right) \tag{9.2}\\
+        & = \frac{I_0}{4} \sin^2 (2 \phi) \tag{9.3}
+    \end{align*}
+           
+    \nd A representation of this phenomenon is shown in Figure 1.
 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=9cm]{polarization pic.png}
+        \caption*{[Figure 1] The effect of three-polarizer polarization on an incident beam of vertically-polarized light. }
+    \end{figure}
+    
+    In the same way, light can be polarized by means of reflection and transmission upon incidence on different types of media. For reflections on air-glass interfaces, the Fresnel equations provide expressions for the parallel and perpendicular reflectance coefficients $r_{\parallel}$ and $r_{\perp}$:
+    \begin{align*}
+        r_{\perp} &= \frac{n_1\cos\theta_1 - n_2\cos\theta_2}{n_1\cos\theta_1 + n_2\cos\theta_2} \tag{10.1}\\
+        r_{\parallel} &= \frac{n_1\cos\theta_2 - n_2\cos\theta_1}{n_1\cos\theta_2 + n_2\cos\theta_1} \tag{10.2}\\
+        r_{\parallel}^2 + r_{\perp}^2 &= 1. \tag{10.3}
+    \end{align*}
+    \nd In practice, these coefficients relate the reflected and transmission angles ($\theta_1$ and $\theta_2$, respectively) with the refraction indices ($n_1$ and $n_2$), which are also related by Snell's law of refraction 
+    \[\frac{\sin\theta_2}{\sin\theta_1} = \frac{n_1}{n_2}.\tag{11}\] 
+    \nd The angle at which the reflectance coefficient $r_{\perp}^2$ is zero is called Brewster's angle, and is given by $\tan\theta_p = \frac{n_2}{n_1}$. This yields a value of $n_2$, and by equation (11), the transmission angle $\theta_2$ can be determined, thus determining the transmission coefficient $r_{\parallel}^2$, which is the amount of light transmissed upon polarization with the medium. 
+
+    Experimentally, for vertically polarized light, $\theta_p$ can be determined by reading off from data from where the reflected horizontally polarized intensity in terms of $\theta_1$ is zero, and this determines Brewster's angle and hence the index of refraction of the medium $n_2$. These processes are described in the methodology.
 
     \vspace{20pt}
 
     \fontfamily{qag} \selectfont \textbf{Methodology}
     
-    \fontfamily{qpl} \selectfont 
+    \fontfamily{qpl} \selectfont The following experimental trials were performed in a dark room with minimal light. To begin, a small 10-volt laser beam was attached to the end of a long track with two polarizers in series with one another. At the end of the track, a laser-acquisition device was placed with a collomating slit in front of it to filter some of the light out to avoid over-saturating the detector. The detector gain level was set to `1', and one of the polarizers was linked to LabView. It was manually rotated $2\pi$ radians while LabView acquired the data. These measurements were repeasted until the best, smoothest curve was measured. The apparatus is shown in Figure 2.
 
-    % % To begin, three thermometers were required to directly measure the internal temperatures of each of the ice and boiling water baths, and one for the internal temperature of the rubber tubing. Two retort stands and thermometer clamps were obtained so that the thermometers for the ice and boiling water baths may be held. First, two beakers were filled with tap water. One beaker was placed on a hotplate, while the other was filled with ice and placed far away from the hotplate so that minimal external thermal energy may be gained. The three thermometers were then calibrated at room temperature in case there was any discrepancy between measurements. The initial thermometer values were recorded with respective reading uncertainties. 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=9cm]{2 polarizers.png}
+        \caption*{[Figure 2] Experimental setup and components of the two-polarizer apparatus. The apparatus consists of a laser diode, two polarizers, one of which is exporting data to LabView, and a diode detector.}
+    \end{figure}
 
-    % This experiments revolves two beakers and a thermometer incased in a rubber tube. One beaker was filled with ice water and placed on an adjustable stand, while other was placed on a hot plate and brought to a boil. A thermometer was held in each of these by a retort stand and clamp. The third thermometer, encased in a cylinder of tortured rubber (thickness: $4.74\pm 0.05\, $mm) not only on its sides, but also below, was transferred between these two beakers at controlled time intervals.  These intervals were measured by an iPhone stopwatch. A video of the experiment was taken where all three thermometers were visible at all times. The temperatures of all three of the thermometers were taken at 10 second intervals.
-    
-    % Many trials were performed, however three were recorded. At first, it was noticed that very small time intervals (~10s periods) yielded no significant effect on the insulated thermometer, only in trials with longer intervals (e.g. ~60s periods) were significant results observed. Thus, shorter intervals were ignored. After some time, it was noted that the beaker with ice water was too close in vicinity to the hotplate, which may have affected the applied temperature. This was adjusted by moving the beakers further apart. The first recorded trial had the insulated thermometer start at it a room-temperature of 27 \textdegree C and was transferred from one beaker to another in 60 second intervals. The second also had the insulated thermometer start at it a room-temperature of 27 \textdegree C, but was transferred at 45 second intervals. The insulated thermometer was placed in the hot bath first for both of these trials and experienced 5 cycles of hot-cold baths. For the third and final trial, the insulated thermometer was placed in the hot beaker and allowed to come up to an extreme temperature before being transferred between the beakers at 60 second intervals for 6 cycles.
+    Once a sufficient amount of data was collected for two polarizers, a third polarizer was added behind the acquisition lens, which was then removed to calibrate the second polarizer. This was done by adjusting the second polarizer so that its direction was orthogonal to that of the first polarizer, and a minimal amount of light was being detected in LabView. The acquisition polarizer was then re-added, and LabView was set to record $2\pi$ radians as the center polarizer was manually adjusted. Again, this experiment was repeated until the observed data was consistent, uniform, and smooth. The apparatus is depicted in Figure 3:
 
-    % Afterwards, the data was extracted from the footage by scrubbing through the video, and writing down the temperature measurements of both the hot and ice water baths, as well as the temperature of the insulated thermometer in a table. The iPhone stopwatch was used as a time reference. Afterwards, uncertainties in measurements were also recorded, since their values were constant by means of thermometer and stopwatch random and systematic errors. This was repeated for all three trials, then the data was typset into a .csv file to be imported for data analysis.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=9cm]{3 polarizers.png}
+        \caption*{[Figure 3] Depiction of the experimental setup used in verifying Malus's law for three polarizers. The apparatus consists of three polarizers, one of which exports angle data to LabView, a laser diode, and detector.}
+    \end{figure}
+
+    The last set of trials which were performed were to determine Brewster's angle. The laser detector gain was configured to `10' and a collomating slit was placed in front to avoid over saturating the detector. The detector was attached to a long, rotatable arm. In the center of the rotator was an acryllic D-lens, which angle information was read by an acquisition device and exported to LabView. Incident to the D-lens was diode-laser light which had been polarized and run through a collomating slit to control the amount of light let through. The initial polarizer was the control, and was left in the horizontally-polarized position which was determined from the trials on Malus's law. The experimental apparatus is shown in Figure 4.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=9cm]{brewsty.png}
+        \caption*{[Figure 4] Experimental setup for determining Brewester's angle. The apparatus consists of a rotatable D-lens, a laser diode, a polarizer, collomating slits and a detector.}
+    \end{figure}
+
+    To determine Brewester's angle, the laser diode was turned on and one individual rotated the D-lens (whose data was exporting into LabView) while the other person rotated the laser detector on the rotatable arm. A second trial was performed, where a horizontal square polarizer was placed on the end of the rotating arm in front of the detector, and a third trial was performed with a vertical polarizer. Overall, these trials took many attempts to minimize the random error in the data which was acquired. All three of these trials were completed effectively, however only the horizontal polarizer data would be needed to complete the Brewster's angle analysis. 
+
+    These three trials were performed individually, as the first trial was used as a control data set to observe the effects of reflective and transmittive polarization on observed light intensity, as the first trial was perform polarizer free. Since the incident light to the D-lens was horizontally polarized, measuring the reflected horizontally polarized light with the square polarizer would then determine Brewster's angle: the value of $\theta$ for which the intensity $I_{\perp}$ was measured to be zero. In the third trial, the square polarizer was rotated to be vertical, and the previous method was again executed to compare the values of $I_{\parallel}$ with the expected values, determined from the initial trial of $I_{\perp}$. These intensities are related by the Fresnel equation (10.3). 
+
+
 
     
 
@@ -210,33 +254,23 @@
     
     \fontfamily{qpl} \selectfont 
     
-    Following the form of the report, Malus's Law will be discussed first. The data, as recorded in \textit{Labview}, was stored in separate .txt files for each of the two trials (2 and 3 polaroids). 
+    Malus's Law will be discussed first. The data, as recorded in \textit{Labview}, was stored in separate .txt files for each of the two trials (2 and 3 polarizers). 
     These files were read by the python library \textit{numpy}'s \textit{.readtxt()} function, and isolated by column for \textit{Intensity (V)} and \textit{position (radians)}.
-    he raw data was plotted using another python library, \textit{matplotlib}, with uncertainties (see the upper charts of Figure N and Figure N+1 for the plots of the 2- and 3-polariod trials respectively).
+    The raw data was plotted using another python library, \textit{matplotlib}, with uncertainties (see the upper charts of Figure 5 and Figure 6 for the plots of the 2- and 3-polariod trials respectively).
     The uncertainties for each of these charts was one half of the smallest significant digit.
     The plot for 2-polarids was fit using an equation in the form of (6), and for 3-polaroids was fit using an equation in the form of (7) using \textit{scipy.optimize.curve\_fit()}. 
     Each of these functions had additional parameters for a phase-shift and an intensity offset.  
 
-    The function fit the 3-polaroid trial quite easily, but the 2-polaroid trial was a little bit more tricky. The flatter tails at either end of the sinusoidal wave were culled from the dataset, and the function was able to fit (see Figure N to see the comparison between the original and culled data). 
+    The function fit the 3-polaroid trial quite easily, but the 2-polaroid trial was a little bit more tricky. The flatter tails at either end of the sinusoidal wave were culled from the dataset, and the function was able to fit (see Figure 5 to see the comparison between the original and culled data). 
 
-    The results of these fits are discussed in the \textit{Results and Discussion section below}. The uncertainties of the relevant parameters of these fits (for these functions, $I_0$ and $I_1$ for the 2- and 3-polaroid trials respectively) were found by taking the square root of the covariance of the optimized parameters found by \textit{scipy.optimize.curve\_fit}. So long as the maximum value of the curve generated by these optimized parameters (as well as the majority of the curve itself) fit within the uncertainties of the measured data, the parameters are sufficient, within the uncertainty of the measurements. The residual plots of each trial (the difference between the fit curve and the measured data) were also plotted (the residual plots can be found in the lower charts of Figure N and Figure N+1).
+    The results of these fits are discussed in the \textit{Results and Discussion section below}. The uncertainties of the relevant parameters of these fits (for these functions, $I_0$ and $I_1$ for the 2- and 3-polaroid trials respectively) were found by taking the square root of the covariance of the optimized parameters found by \textit{scipy.optimize.curve\_fit}. So long as the maximum value of the curve generated by these optimized parameters (as well as the majority of the curve itself) fit within the uncertainties of the measured data, the parameters are sufficient, within the uncertainty of the measurements. The residual plots of each trial (the difference between the fit curve and the measured data) were also plotted (the residual plots can be found in the lower charts of Figure 5 and Figure 6).
     
-    For Brewster's angle, the raw data was imported and plotted in the same way as for the Malus's law experiments (with uncertainties also found in the similar way), but, of course, the angles represent different things, as discussed in the Methodology section (the plots can be found in Figure N+2).
-    These plots have some serious uncertainties in them. The drops in the decay curve are due to the imperfect following of the detector as the reflected light traversed.
-    The large emission area on the horizontally polarized graph (the middle plot in Figure N+2) has some other significant error due to background radiation (a door being opened).
-    But, since only $\theta_p$ needs to be extracted from these graphs, none of these errors meaningfully affect the analysis.
-    $\theta_p$ was extracted by observing where the horizontally polarized intensity became effectively zero.
-    Using the uncertainty as one half of the last significant digit would be unreasonable in this case since the sampling rate is not perfect, so the uncertainty in this angle was set as $\pm 0.5 ^\circ$. Equation N was then applied, with $n_1 = 1$ to find $n_2$. Equation N+1 was then applied to our now known values to find $\theta_2$. Now with $n_1, n_2, \theta_1, \theta_2$, everything needed to calculate $r_\perp$ and $r_\parallel$ is known. $r_\perp$ is found using equation N+2 and the sum-of-squares relation (equation N+3) is used to find $r_\parallel$. For all of these calculations, the uncertainty was propogated using the \textit{uncertainties} python library.
-
+    
     \vspace{10pt}
 
     \fontfamily{qag} \selectfont \textbf{Results and Discussion}
     
-    \fontfamily{qpl} \selectfont The computed values for the thermal diffusivity $m$, along with the respective uncertainties, were extracted from the optimal curve\_fit parameters. These values, along with the fitting data and $\chi^2$ probabilities, are included in Table 1. The data was plotted, including the applied temperature square wave (Figure 3). The uncertainty analysis, described previously, was then carried out and plotted in Figure 4.
-
-    These values were compared with an expected value for thermal diffusivity, taken from [1], which was $m = 0.95\pm 0.17 \,$mm$^2$/s, while another source [2] yielded\\  $m = 0.089 - 0.13\,$mm$^2$/s. Overall, in comparison to the results, a significant overlap from expected and computed values was noted, thus concluding a successful draw of results from the data. 
-    
-    Lastly, from examining results, a large difference in $m$ was noted between the 120s and 90s trials. This was attributed to the 90s trial being too short of a time interval, hence yielding a value of $m$ higher than expected due to the shorter amount of time for energy transfer, since this assumes a denser medium. From Figure 3, it is noticeable that the 90s trial (2) has a much smaller amplitude than that of the 120s trials (1 and 3). In the future, it is recommended to perform trials with longer periods and significant patience.   
+    \fontfamily{qpl} \selectfont 
 
 
 
@@ -244,7 +278,8 @@
 
     \fontfamily{qag} \selectfont \textbf{Conclusions}
     
-    \fontfamily{qpl} \selectfont Overall, it was concluded that the thermal diffusivity of the rubber tube was within the range of the expected experimental value specified in literature for polypropylene. Despite difficulties such as tedious data collection, curve fitting, and uncertainty analysis, the results yielded were valid within the uncertainty range.    
+    \fontfamily{qpl} \selectfont 
+
 
 
 
@@ -255,12 +290,11 @@
     \fontfamily{qag} \selectfont
 
     \begin{thebibliography}{}\fontfamily{qpl} \selectfont
-        \bibitem{Item} Martínez, K., Marín, E., Glorieux, C., Lara-Bernal, A., Calderón, A., Rodríguez, G. P., \& Ivanov, R. (2015). Thermal diffusivity measurements in solids by photothermal infrared radiometry: Influence of convection–radiation heat losses. International Journal of Thermal Sciences, 98, 202-207.
-                    \color{blue}\url{https://doi.org/10.1016/j.ijthermalsci.2015.07.019}\color{black}
-        \bibitem{Item} Edge, E. (n.d.). Thermal diffusivity table. Engineers Edge - Engineering, Design and Manufacturing Solutions. Retrieved February 9, 2023, from 
-                    \color{blue}\url{https://www.engineersedge.com/heat_transfer/thermal_diffusivity_table_13953.htm} \color{black}
-        \bibitem{Item} Thermal Diffusivity of Tortured Rubber and Bessel Functions. University of Toronto Practicals, PHY324 Manual. 
-                    \color{blue}\url{https://www.physics.utoronto.ca/~phy224_324/experiments/thermal-diffusivity/labheat.pdf}\color{black}
+        \bibitem{Item} Wilsion, B; Hong, Z; Serbanescu, R. (Revised 2017). \textit{PHY324 Polarization of Light Lab}. \color{blue}\url{https://www.physics.utoronto.ca/~phy224_324/experiments/polarization-of-light/polar.pdf}\color{black}
+        \bibitem{Item} Cornell Center for Materials Research. \textit{Refraction and it's Applications}. \color{blue}\url{https://www.ccmr.cornell.edu/wp-content/uploads/sites/2/2016/02/Refraction-Lab.pdf}\color{black}
+        \bibitem{Item} Brown Department of Physics. \textit{13. Fresnel's Equations for Reflection and Transmission}. \color{blue}\url{https://www.brown.edu/research/labs/mittleman/sites/brown.edu.research.labs.mittleman/files/uploads/lecture13_0.pdf}\color{black}
+        \bibitem{Item} Wirjawan, J.V., 2016, March. \textit{Consecutive polarizers arrangement producing maximum polarized light intensity}. In AIP Conference Proceedings (Vol. 1719, No. 1, p. 030056). AIP Publishing LLC. \color{blue}\url{https://aip.scitation.org/doi/pdf/10.1063/1.4943751}\color{black}
+        \bibitem{Item} BYJU Physics. \textit{Refractive Index}. \color{blue}\url{https://byjus.com/physics/refractive-index/}\color{black}
     \end{thebibliography}
 
 
@@ -278,7 +312,7 @@
     \begin{figure}[H]
         \hspace{-25pt} 
         \includegraphics[width=3.7in]{malus_2.png}
-        \caption{add later.}
+        \caption*{[Figure 5] Observed data for the verification of Malus's law for two polarizers. The above plot, on the vertical axis, the output intensity, and the angle in radians on the horiztonal axis. The $\chi^2 = 0.376<1$, which makes this an excellent fit for the data. The lower figure displays the residual data plot with uncertainty overlap.}
         \label{fig:malus_2}
     \end{figure}
 
@@ -287,74 +321,10 @@
     \begin{figure}[H]
         \hspace{-5pt}
         \includegraphics[width=3in]{malus_3.png}
-        \caption{add later.}
+        \caption*{[Figure 6] Observed data for the verification of Malus's law for three polarizers. The above plot, on the vertical axis, the output intensity, and the angle in radians on the horiztonal axis. The $\chi^2 = 0.497<1$, which makes this an excellent fit for the data. The lower figure displays the residual data plot with uncertainty overlap. }
         \label{fig:malus_3}
     \end{figure}
 
-% \vspace{0pt}
-
-%     \begin{figure}[H]
-%         \centering 
-%         \includegraphics[width=5.5in]{IMG_0450.jpg}
-%         \caption*{[Figure 3] The plotted data for all three trials, including uncertainties and calibrated curve fits. (Above) Trial 1, at 60s intervals with initial temperature $27^\circ$C. (Middle) Trial 2, at 45s intervals with initial temperature $29^\circ$C. (Below) Trial 3, again at 60s interval but with initial temperature $97^\circ$C. }
-%     \end{figure}
-
-% \vspace{-20pt}
-
-    % \begin{figure}[H]
-    %     \centering 
-    %     \includegraphics[width=7in]{uncertainty data.png}
-    %     \caption*{[Figure 4] The visual overlap of the uncertainties recorded for acquired data and curve\_fit parameter covariances. The columns indicate trial number, while the rows indicate the `uncertainty of worst fit' (Left) and the distance between errors (Right). These plots were created by varying the optimal curve fit parameters with the maximum uncertainty of the covariances, and the comparing the uncertainty overlap with acquired data. }
-    % \end{figure}
-
-
-    \begin{table}[H]
-        \centering
-        \resizebox{5cm}{!}{
-        \begin{tabular}{|c|c|}
-                \hline
-            Trial & Period (s) \\
-                \hline
-            $m_1 L_1 \theta_1$ & 1.442$\pm$0.612 \\
-                \hline
-            $m_1 L_1 \theta_2$ & 1.623$\pm$0.649 \\
-                \hline
-            $m_1 L_2 \theta_1$ & 1.275$\pm$0.48 \\
-                \hline
-            $m_1 L_2 \theta_2$ & 1.11$\pm$0.223 \\
-                \hline
-            $m_2 L_1 \theta_1$ & 1.386$\pm$0.644 \\
-                \hline
-            $m_2 L_1 \theta_2$ & 1.434$\pm$0.324 \\
-                \hline
-            $m_2 L_2 \theta_1$ & 1.181$\pm$0.293 \\
-                \hline
-            $m_2 L_2 \theta_2$ & 1.369$\pm$0.589 \\
-                \hline
-        \end{tabular}
-        }
-        \caption*{[Table 1] Results obtained for the computed values of the thermal diffusivity for each of the three trials. Included is the applied angular period, the intial temperature of the rubber, the curve\_fit computed value for the thermal diffusivity and uncertainty, and the quality of the $\chi^2$ fit.}   
-    \end{table}
-
-    \begin{table}[H]
-        \centering
-        \resizebox{8cm}{!}{
-        \begin{tabular}{|c|c|c|c|c|c|}
-                \hline
-            Trial & $\tau$ (s$^{-1}$) & $\chi^2$ (probability)\\
-                \hline
-            $m_1 L_2 \theta_1$ & 166$\pm$2.1 & 0.2\\
-                \hline
-            $m_1 L_2 \theta_2$ & 334$\pm$12 & 0.3\\
-                \hline
-            $m_1 L_2 \theta_1$ & 86.5$\pm$49 & 0.0\\
-                \hline
-            $m_2 L_2 \theta_1$ & 26.9$\pm$6.9 & 0.0\\
-                \hline
-        \end{tabular}
-        }
-        \caption*{[Table 1] Results obtained for the computed values of the thermal diffusivity for each of the three trials. Included is the applied angular period, the intial temperature of the rubber, the curve\_fit computed value for the thermal diffusivity and uncertainty, and the quality of the $\chi^2$ fit.}   
-    \end{table}
 
 \end{multicols}
 
