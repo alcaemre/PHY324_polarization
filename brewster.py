@@ -66,10 +66,10 @@ if __name__ == "__main__":
     nop_uncertainty = np.zeros(len(nop_position)) + 5e-3
 
     h_position, h_intensity = read_file("brewster_JA-ERA-horizontal.txt")       # h is horizontally polarized
-    h_uncertainty = np.zeros(len(h_intensity)) + 3e-3
+    h_uncertainty = np.zeros(len(h_intensity)) + 5e-5
 
     v_position, v_intensity = read_file("brewster_JA-ERA-vertical.txt")        # v is vertically polarized
-    v_uncertainty = np.zeros(len(v_intensity)) + 3e-3
+    v_uncertainty = np.zeros(len(v_intensity)) + 5e-5
 
      # plot data
 
