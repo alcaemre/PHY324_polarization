@@ -246,6 +246,27 @@
 
 
 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=9cm]{2 polarizers.png}
+        \caption*{[Figure 2] Experimental setup and components of the two-polarizer apparatus. The apparatus consists of a laser diode, two polarizers, one of which is exporting data to LabView, and a diode detector.}
+    \end{figure}
+
+    Once a sufficient amount of data was collected for two polarizers, a third polarizer was added behind the acquisition lens, which was then removed to calibrate the second polarizer. This was done by adjusting the second polarizer so that its direction was orthogonal to that of the first polarizer, and a minimal amount of light was being detected in LabView. The acquisition polarizer was then re-added, and LabView was set to record $2\pi$ radians as the center polarizer was manually adjusted. Again, this experiment was repeated until the observed data was consistent, uniform, and smooth. The apparatus is depicted in Figure 3:
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=9cm]{3 polarizers.png}
+        \caption*{[Figure 3] Depiction of the experimental setup used in verifying Malus's law for three polarizers. The apparatus consists of three polarizers, one of which exports angle data to LabView, a laser diode, and detector.}
+    \end{figure}
+
+    The last set of trials which were performed were to determine Brewster's angle. The laser detector gain was configured to `10' and a collomating slit was placed in front to avoid over saturating the detector. The detector was attached to a long, rotatable arm. In the center of the rotator was an acryllic D-lens, which angle information was read by an acquisition device and exported to LabView. Incident to the D-lens was diode-laser light which had been polarized and run through a collomating slit to control the amount of light let through. The initial polarizer was the control, and was left in the horizontally-polarized position which was determined from the trials on Malus's law. The experimental apparatus is shown in Figure 4.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=9cm]{brewsty.png}
+        \caption*{[Figure 4] Experimental setup for determining Brewester's angle. The apparatus consists of a rotatable D-lens, a laser diode, a polarizer, collomating slits and a detector.}
+    \end{figure}
     
 
     \vspace{10pt}
@@ -270,9 +291,12 @@
 
     \fontfamily{qag} \selectfont \textbf{Results and Discussion}
     
-    \fontfamily{qpl} \selectfont 
+    \fontfamily{qpl} \selectfont
 
-
+    For Malus's law, the model found $I_0 = 3.42 \pm 0.01$ V and a phase shift of $-0.985 \pm 0.003$ radians with a $\chi^2 = 0.376$ for the 2-polaroid trial. For the 3-polaroid trial the model found $I_1 = 0.497 \pm 6.8 \cdot 10^{-4}$ V and a phase shift of $1.16 \pm 7.3 \cdot 10^{-4}$ with a $\chi^2 = 0.426$.
+    It is important to notice that, with three polarizers, the intensity is at its maximum when $\phi=\pi/4$ and at a minimum when $\phi= 0, \pi$. This might be hard to notice from the graph, but when considering the phase shifts in mind, these values align well with the peaks and troughs of the graphs in Figure 6.
+    Another important and interesting thing about these results, is that while we managed to find a good fit, there is some strange behavious in the plot of Intensity vs. $\cos^2 \theta$ (figure 7). This graph is expected to be linear, but actually has this strange wing-like shape (see Figure 7). This is surprising since Intensity should be linearly related to $\cos^2 \theta$, but is not.
+    
 
     \vspace{10pt}
 

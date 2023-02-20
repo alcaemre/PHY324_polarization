@@ -58,7 +58,7 @@ def calc_residual(fx, y):
 
 
 if __name__ == "__main__":
-    plotting = False
+    plotting = True
 
     # Loading data
 
@@ -85,14 +85,16 @@ if __name__ == "__main__":
         ax2.errorbar(h_position, h_intensity, yerr=h_uncertainty, zorder=1, label='Recorded Intensity', color='r') # plotting horizontally polarized brewsters
         h_intensity[500:892] = 0
         # ax2.errorbar(h_position, h_intensity, yerr=h_uncertainty, zorder=1, label='Recorded Intensity', color='b')
-        ax2.set_title("Horizontally Polarized Position vs. Intensity")
+        ax2.set_title("Perpendicular Polarized Position vs. Intensity")
         ax2.set_ylabel("Intensity (V)")
         # ax2.set_xlabel("Position (radians)")
 
         ax3.errorbar(v_position, v_intensity, yerr=v_uncertainty, zorder=1, label='Recorded Intensity') # plotting vertically polarized brewsters
-        ax3.set_title("vertically polarized Position vs. Intensity")
+        ax3.set_title("Vertically Polarized Position vs. Intensity")
         # ax2.set_ylabel("Intensity (V)")
         ax3.set_xlabel("Position (radians)")
+
+        plt.subplots_adjust(hspace=0.4)
 
         plt.show()
 
