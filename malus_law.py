@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
     # ANALYSIS FOR 2 POLARIZERS
 
-    plotting_2 = True
+    plotting_2 = False
 
     #loading data
 
@@ -104,7 +104,7 @@ if __name__ == "__main__":
 
     popt2, pcov2 = op.curve_fit(malus_law_2, position2, intensity2, p0=(3.5, -1.6, 0.6))    # fitting 2 polaroids
     perr2 = np.sqrt(np.diag(pcov2))
-    print('for 2 polarizers, I0 is' + str(popt2[0]) + '+/-' + str(perr2[0]))
+    print('for 2 polarizers, phase shift is' + str(popt2[1]) + '+/-' + str(perr2[1]))
 
     fx_2 = malus_law_2(position2, popt2[0], popt2[1], popt2[2])
     # fx_2 = malus_law_2(position2, popt2[0], popt2[1])
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     ux_3 = np.zeros(len(position3)) + 5e-4
     
 
-    plotting_3 = False
+    plotting_3 = True
 
     popt3, pcov3 = op.curve_fit(malus_law_3, position3, intensity3, p0=(3.5, np.pi/4, 0.01213))    # fitting 3 polaroids
     perr3 = np.sqrt(np.diag(pcov3))
@@ -174,7 +174,7 @@ if __name__ == "__main__":
 
     residual_3 = calc_residual(fx_3, intensity3)
 
-    print('for 3 polarizers, I0 is' + str(popt3[0]) + '+/-' + str(perr3[0]))
+    print('for 3 polarizers, phase shift is' + str(popt3[1]) + '+/-' + str(perr3[1]))
     print('for 3 polarizers, chi squared is' + str(chi_squared_3))
 
     if plotting_3:

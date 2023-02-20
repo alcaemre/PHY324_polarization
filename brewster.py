@@ -85,7 +85,7 @@ if __name__ == "__main__":
         ax2.errorbar(h_position, h_intensity, yerr=h_uncertainty, zorder=1, label='Recorded Intensity', color='r') # plotting horizontally polarized brewsters
         h_intensity[500:892] = 0
         # ax2.errorbar(h_position, h_intensity, yerr=h_uncertainty, zorder=1, label='Recorded Intensity', color='b')
-        ax2.set_title("Horizontally Polarized Position vs. Intensity")
+        ax2.set_title("Perpendicular Polarized Position vs. Intensity")
         ax2.set_ylabel("Intensity (V)")
         # ax2.set_xlabel("Position (radians)")
 
