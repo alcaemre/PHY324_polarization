@@ -82,17 +82,21 @@ if __name__ == "__main__":
 
     # ANALYSIS FOR 2 POLARIZERS
 
-    plotting_2 = False
+    plotting_2 = True
 
     #loading data
 
     # print(read_file("malus_law_JA-ERA-2polarizers.txt"))
-    position2, intensity2 = read_file("malus_law_JA-ERA-2polarizers.txt")
-    position2 = position2[170:490]
-    intensity2 = intensity2[170:490]
+    position2_0, intensity2_0 = read_file("malus_law_JA-ERA-2polarizers.txt")
+
+    position2 = position2_0[170:490]
+    intensity2 = intensity2_0[170:490]
 
     uncertainty2 = np.zeros(len(intensity2)) + 8e-2
     ux_2 = np.zeros(len(position2)) + 5e-4
+
+    uncertainty2_0 = np.zeros(len(intensity2_0)) + 8e-2
+    ux_2_0 = np.zeros(len(position2_0)) + 5e-4
     
     # print(np.min(intensity3))
     
@@ -112,7 +116,9 @@ if __name__ == "__main__":
     residual_2 = calc_residual(fx_2, intensity2)
 
     if plotting_2:
-        fig, (ax1,ax2) = plt.subplots(2,1)
+        fig, (ax1,ax2,) = plt.subplots(2,1)
+
+        ax1.errorbar(position2_0, intensity2_0, xerr=ux_2_0, yerr=uncertainty2_0, zorder=0, label='Original data', color='black')
 
         ax1.errorbar(position2, intensity2, xerr=ux_2, yerr=uncertainty2, zorder=1, label='Recorded Intensity') # plotting 2 polaroids
         ax1.set_title("Position vs. Intensity with Two Polaroids")
